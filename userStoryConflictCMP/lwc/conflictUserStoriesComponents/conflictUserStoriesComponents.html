@@ -1,0 +1,96 @@
+<template>
+    <div class ="slds-grid slds-wrap" style = "background-color:white;padding: 15px">
+        <div  class="slds-align_absolute-center slds-col slds-size_2-of-12" style="font-size: 23px;
+        font-weight: bold;
+        font-family: sans-serif;
+        margin-top: 3px;">Sprint Name:</div>
+        <div class="slds-col slds-size_7-of-12" >
+                    <div class="slds-form-element__control" onclick={stopPropagation}>
+                        <lightning-input label="Select Sprint" type="search" onfocus={showPicklistOptions}
+                             onchange={search} value={selectedValue} oncommit={handleClear}>
+                        </lightning-input>
+                        <template if:true={searchData}>
+                        <div class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid"
+                            role="listbox">
+                            <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                <template for:each={searchResults} for:item="searchResult">
+                                    <li key={searchResult.value} data-value={searchResult.value} role="presentation"
+                                        onclick={selectSearchResult} class="slds-listbox__item">
+                                        <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small "
+                                            role="option">
+                                            <span class="slds-media__body">
+                                                <span class="slds-truncate" title={searchResult.label}>
+                                                    {searchResult.label}
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                        </template>
+                    </div>
+            
+
+                <!--<lightning-combobox name="selectRelease" onchange={selectOptionChanveValue}
+                    label="Select Sprint" value={defaulteleasename} 
+                    placeholder="None" options={relaseRecordList}>
+                </lightning-combobox>-->
+        </div>
+        <div class="slds-col slds-size_3-of-12"></div>
+    </div>
+    <template if:true = {componentWithUserStoryName}>  
+        <div class="slds-box slds-theme--default">             
+        <div >
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+                <tr>
+                    <th scope = "col"><b>Serial Number</b></th>
+                    <th scope = "col"><b>Component Name</b></th>
+                    <th scope = "col"><b>Tickets Name</b></th>
+                    <th scope = "col"><b>Owner Name</b></th>
+                    <th scope = "col"><b>Developer Name</b></th>
+                </tr>
+                <template for:each={componentWithUserStoryName} for:item="wrapper">
+                    <tr key={wrapper.Id}>
+                        <th scope="col">
+                            <div>{wrapper.serialNumber}</div>
+                        </th>
+                        <th scope="col">
+                            <div>{wrapper.cmpName}</div>
+                        </th>
+                        
+                        <th scope="col">
+                            <template for:each={wrapper.userStory} for:item="userStory">
+                                <div key={userStory.storyId}><a key={userStory.storyId}  data-value={userStory.storyId}  onclick={getRecordView}> {userStory.storyName}</a></div>
+                            </template>
+                        </th>
+                        <th scope="col">
+                            <template for:each={wrapper.userStory} for:item="userStory">
+                               <div key={userStory.storyId}>{userStory.ownerName}</div>
+                            </template>
+                        </th>
+                        <th scope="col">
+                            <template for:each={wrapper.userStory} for:item="userStory">
+                               <div key={userStory.storyId}>{userStory.devName}</div>
+                            </template>
+                        </th>
+                    </tr>
+                </template>
+            </table>
+            <!--<div class="slds-grid slds-grid_align-center slds-m-around_medium">
+            <lightning-button label="Previous" onclick={handlePrevious} disabled={isFirstPage}></lightning-button>
+            <lightning-button label="Next" onclick={handleNext} disabled={isLastPage}></lightning-button> 
+            </div>    -->
+        </div> 
+    </div> 
+    
+              
+    </template>  
+    <template if:true = {error}>  
+       <div class="slds-align_absolute-center" style="font-size: 23px;
+       font-weight: bold;
+       font-family: sans-serif;
+       margin-top: 3px;background-color:white;padding: 15px"> {error}  </div>              
+        </template>
+
+</template>
